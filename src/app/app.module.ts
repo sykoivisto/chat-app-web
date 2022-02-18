@@ -5,7 +5,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { MessageLogComponent } from './message-log/message-log.component';
 
-import {TextFieldModule} from '@angular/cdk/text-field';
 import { LoginComponent } from './login/login.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard';
@@ -25,7 +24,6 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     FormsModule,
-    TextFieldModule,
     [RouterModule.forRoot(routes)]
   ],
   providers: [],

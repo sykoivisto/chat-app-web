@@ -1,32 +1,70 @@
-.main-container {
-  height: 100vh;
-  max-height: 1200px;
-  margin: 0;
-  padding: 0;
+.row {
+	width: 100vw;
+	height: 100vh;
 }
-textarea {
-  max-height: 30vh;
+.screen-container {
+	height: 100vh;
+	max-height: 1200px;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
 }
-.message-parent {
-  position: relative;
+.chat-input {
+	margin: 10px 0 15px 0;
 }
-.input-message {
-  position: absolute;
-  width: 100%;
-  bottom: 20px;
+//keep container scrolled to bottom
+.scroll-wrapper {
+  overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  border: 1px solid lightgrey;
+	border-radius: 5px;
+	height: 100%;
 }
-.username {
-  font-weight: bold;
+.scroll-bar-pusher {
+	flex: 1 1 0%;
 }
+//give messages some space
+.message-log {
+	padding: 0 10px 10px 10px;
+}
+//keep user messages to right
 .right {
-  float: right;
-  clear: both;
-  .username {
-    float: right;
-  }
+	float: right;
 }
 .message {
-  max-width: 100%;
-  word-wrap: break-word;
-  clear: both;
+	clear: both;
+	.username {
+		font-weight: bold;
+	}
+}
+//banner
+h1{
+	text-align: center;
+	font-size: 24px;
+	margin: 10px;
+	font-weight: lighter;
+}
+
+//scrollbar
+
+/* width */
+.scroll-wrapper::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.scroll-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.scroll-wrapper::-webkit-scrollbar-thumb {
+  background: #888;
+	border-radius: 2px;
+}
+
+/* Handle on hover */
+.scroll-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

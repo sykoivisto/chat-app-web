@@ -4,40 +4,43 @@ import { io } from 'socket.io-client';
 import { LoginService } from '../login.service';
 
 @Component({
-  selector: 'app-message-log',
-  templateUrl: './message-log.component.html',
-  styleUrls: ['./message-log.component.scss']
+	selector: 'app-message-log',
+	templateUrl: './message-log.component.html',
+	styleUrls: ['./message-log.component.scss'],
 })
 export class MessageLogComponent implements OnInit {
-  socketEndpoint = 'https://sy-chat-app.herokuapp.com/';
-  socket: any;
+	socketEndpoint = 'https://sy-chat-app.herokuapp.com/';
+	socket: any;
 
-  username = '';
+	username = '';
 
-  messages: {message: string, username: string, class: string}[] = [];
+	messages: { message: string; username: string; class: string }[] = [];
 
-  constructor(private loginService: LoginService) { }
+	constructor(private loginService: LoginService) {}
 
-  ngOnInit(): void {
-    this.username = this.loginService.getUsername();
-    this.setupSocketConnection();
-    this.socket.on('message-broadcast', (message: string, username:string) => {
-      if (message && username) {
-        this.messages.push({message, username, class: ''});
-       }
-     });
-  }
+	ngOnInit(): void {
+		this.username = this.loginService.getUsername();
+		this.setupSocketConnection();
+		this.socket.emit('join', this.username);
+		this.socket.on('message-broadcast', (message: string, username: string) => {
+			if (message && username) {
+				this.messages.push({ message, username, class: '' });
+			}
+		});
+	}
 
-  setupSocketConnection() {
-    this.socket = io(this.socketEndpoint, { transports : ['websocket'] });
- }
+	setupSocketConnection() {
+		this.socket = io(this.socketEndpoint, { transports: ['websocket'] });
+	}
 
- onSend(messageForm: NgForm) {
-  const message = messageForm.value.message;
-  const username = this.username;
-  this.socket.emit('message', message, username)
-  this.messages.push({message, username, class: 'right'});
-  messageForm.reset();
- }
-
+	onSend(messageForm: NgForm) {
+		if (!messageForm.valid) {
+			return;
+		}
+		const message = messageForm.value.message;
+		const username = this.username;
+		this.socket.emit('message', message, username);
+		this.messages.push({ message, username, class: 'right' });
+		messageForm.reset();
+	}
 }
