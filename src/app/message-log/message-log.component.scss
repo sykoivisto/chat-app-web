@@ -1,0 +1,32 @@
+.main-container {
+  height: 100vh;
+  max-height: 1200px;
+  margin: 0;
+  padding: 0;
+}
+textarea {
+  max-height: 30vh;
+}
+.message-parent {
+  position: relative;
+}
+.input-message {
+  position: absolute;
+  width: 100%;
+  bottom: 20px;
+}
+.username {
+  font-weight: bold;
+}
+.right {
+  float: right;
+  clear: both;
+  .username {
+    float: right;
+  }
+}
+.message {
+  max-width: 100%;
+  word-wrap: break-word;
+  clear: both;
+}

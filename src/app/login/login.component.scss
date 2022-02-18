@@ -1,0 +1,15 @@
+.form-group, button {
+ display: inline-block;
+}
+button {
+  width: 70px;
+  margin-left: 5px;
+}
+.form-group {
+  width: calc(100% - 75px);
+}
+.row {
+  position: absolute;
+  top: 30vh;
+  width: 100%;
+}

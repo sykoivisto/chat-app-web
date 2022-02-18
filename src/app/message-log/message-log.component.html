@@ -1,0 +1,32 @@
+<div class="row main-container">
+  <div class="col-xs-10 offset-xs-1 col-md-8 offset-md-2 message-parent">
+    <div class="row message-log">
+      <div class="col">
+        <div *ngFor="let message of messages" [ngClass]="message.class" class="message">
+          <span class="username">{{ message.username }}</span>
+          <br>
+          {{ message.message }}
+        </div>
+      </div>
+    </div>
+    <div class="row input-message">
+      <div class="col">
+        <form (ngSubmit)="onSend(messageForm)" #messageForm="ngForm">
+          <div class="form-group">
+            <textarea
+            [cdkTextareaAutosize]
+            class="form-control"
+            ngModel
+            name="message"
+            required>
+          </textarea>
+          </div>
+          <button
+          class="btn btn-primary"
+          [disabled]="!messageForm.valid" type="submit">
+          Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
