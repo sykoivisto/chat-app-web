@@ -8,18 +8,21 @@ import { MessageLogComponent } from './message-log/message-log.component';
 import { LoginComponent } from './login/login.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard';
+import { ServerListComponent } from './server-list/server-list.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
-  {path: 'chat', component: MessageLogComponent, canActivate: [AuthGuard]},
+	{path: 'rooms', component: ServerListComponent, canActivate: [AuthGuard]},
+	{path: 'chat/:room', component: MessageLogComponent, canActivate: [AuthGuard]},
 ]
 
 @NgModule({
   declarations: [
     AppComponent,
     MessageLogComponent,
-    LoginComponent
+    LoginComponent,
+    ServerListComponent
   ],
   imports: [
     BrowserModule,

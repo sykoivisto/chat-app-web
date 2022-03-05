@@ -1,0 +1,51 @@
+.row {
+	width: 100vw;
+	height: 100vh;
+	margin: 0;
+	padding: 0;
+}
+
+.server-name {
+	font-size: 20px;
+	display: inline-block;
+	margin: 5px;
+}
+
+.refresh {
+	margin-bottom: 5px;
+}
+
+.join {
+	float: right;
+}
+
+//banner
+.banner {
+	text-align: center;
+	font-size: 24px;
+	margin: 10px;
+	font-weight: lighter;
+}
+
+//scrollbar
+
+/* width */
+.scroll-wrapper::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* Track */
+.scroll-wrapper::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* Handle */
+.scroll-wrapper::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 2px;
+}
+
+/* Handle on hover */
+.scroll-wrapper::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}

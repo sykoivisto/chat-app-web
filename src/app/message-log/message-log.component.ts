@@ -1,46 +1,49 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { io } from 'socket.io-client';
+import { Subscription } from 'rxjs';
 import { LoginService } from '../login.service';
+import { SocketService } from '../socket.service';
 
 @Component({
 	selector: 'app-message-log',
 	templateUrl: './message-log.component.html',
 	styleUrls: ['./message-log.component.scss'],
 })
-export class MessageLogComponent implements OnInit {
-	socketEndpoint = 'https://sy-chat-app.herokuapp.com/';
-	socket: any;
+export class MessageLogComponent implements OnInit, OnDestroy {
 
 	username = '';
 
 	messages: { message: string; username: string; class: string }[] = [];
 
-	constructor(private loginService: LoginService) {}
+	messageSubscription: Subscription;
+
+	constructor(private loginService: LoginService, private socketService: SocketService) {
+
+		//subscribe to incoming messages
+		this.messageSubscription = this.socketService.newMessage
+		.subscribe( message => {
+			this.messages.push(message);
+		})
+
+	}
 
 	ngOnInit(): void {
 		this.username = this.loginService.getUsername();
-		this.setupSocketConnection();
-		this.socket.emit('join', this.username);
-		this.socket.on('message-broadcast', (message: string, username: string) => {
-			if (message && username) {
-				this.messages.push({ message, username, class: '' });
-			}
-		});
-	}
-
-	setupSocketConnection() {
-		this.socket = io(this.socketEndpoint, { transports: ['websocket'] });
 	}
 
 	onSend(messageForm: NgForm) {
 		if (!messageForm.valid) {
 			return;
-		}
+		} //user shouldnt send blank messages.
 		const message = messageForm.value.message;
 		const username = this.username;
-		this.socket.emit('message', message, username);
-		this.messages.push({ message, username, class: 'right' });
-		messageForm.reset();
+		this.socketService.sendMessage(message, username); //socket is set up in the socket service.
+		this.messages.push({ message, username, class: 'right' }); //display messages on client.
+		messageForm.reset(); //reset the input box
 	}
+
+	ngOnDestroy(): void {
+			this.messageSubscription.unsubscribe();
+	}
+
 }
