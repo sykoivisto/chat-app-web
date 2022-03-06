@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { LoginService } from '../login.service';
 import { SocketService } from '../socket.service';
 
@@ -9,26 +9,29 @@ import { SocketService } from '../socket.service';
 	templateUrl: './message-log.component.html',
 	styleUrls: ['./message-log.component.scss'],
 })
-export class MessageLogComponent implements OnInit, OnDestroy {
+export class MessageLogComponent implements OnInit {
+
+	room = '';
 
 	username = '';
 
 	messages: { message: string; username: string; class: string }[] = [];
 
-	messageSubscription: Subscription;
-
-	constructor(private loginService: LoginService, private socketService: SocketService) {
-
-		//subscribe to incoming messages
-		this.messageSubscription = this.socketService.newMessage
-		.subscribe( message => {
-			this.messages.push(message);
-		})
-
+	constructor(private loginService: LoginService, private socketService: SocketService, private route: ActivatedRoute) {
 	}
 
 	ngOnInit(): void {
 		this.username = this.loginService.getUsername();
+
+		this.route.params.subscribe(params => {
+			this.room = params['room']
+		})
+
+		this.socketService.socket.on('message-broadcast', (message: string, username: string) => {
+			if (message && username) {
+				this.messages.push({ message, username, class: '' });
+			}
+		});
 	}
 
 	onSend(messageForm: NgForm) {
@@ -37,13 +40,10 @@ export class MessageLogComponent implements OnInit, OnDestroy {
 		} //user shouldnt send blank messages.
 		const message = messageForm.value.message;
 		const username = this.username;
-		this.socketService.sendMessage(message, username); //socket is set up in the socket service.
+		const room = this.room;
+		this.socketService.sendMessage(message, username, room); //socket is set up in the socket service.
 		this.messages.push({ message, username, class: 'right' }); //display messages on client.
 		messageForm.reset(); //reset the input box
-	}
-
-	ngOnDestroy(): void {
-			this.messageSubscription.unsubscribe();
 	}
 
 }

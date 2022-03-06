@@ -16,10 +16,10 @@
 }
 //keep container scrolled to bottom
 .scroll-wrapper {
-  overflow: auto;
-  display: flex;
-  flex-direction: column-reverse;
-  border: 1px solid lightgrey;
+	overflow: auto;
+	display: flex;
+	flex-direction: column-reverse;
+	border: 1px solid lightgrey;
 	border-radius: 5px;
 	height: 100%;
 }
@@ -40,33 +40,55 @@
 		font-weight: bold;
 	}
 }
+
 //banner
-h1{
-	text-align: center;
-	font-size: 24px;
+.banner {
+	position: relative;
 	margin: 10px;
+}
+.banner-content {
 	font-weight: lighter;
+	font-size: 24px;
+}
+.title {
+	text-align: center;
+	display: block;
+}
+.bcleft,
+.bcright {
+	position: absolute;
+	top: 0;
+}
+.bcleft {
+	left: 0;
+}
+.bcright {
+	right: 0;
+}
+a {
+	text-decoration: none;
+	color: unset;
 }
 
 //scrollbar
 
 /* width */
 .scroll-wrapper::-webkit-scrollbar {
-  width: 10px;
+	width: 10px;
 }
 
 /* Track */
 .scroll-wrapper::-webkit-scrollbar-track {
-  background: #f1f1f1;
+	background: #f1f1f1;
 }
 
 /* Handle */
 .scroll-wrapper::-webkit-scrollbar-thumb {
-  background: #888;
+	background: #888;
 	border-radius: 2px;
 }
 
 /* Handle on hover */
 .scroll-wrapper::-webkit-scrollbar-thumb:hover {
-  background: #555;
+	background: #555;
 }
